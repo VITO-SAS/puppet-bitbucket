@@ -3,7 +3,7 @@
 # Defines default values for bitbucket module
 #
 class bitbucket::params {
-  case $::osfamily {
+  case $facts['os']['family'] {
     /RedHat/: {
       $systemd_unit_dir = '/usr/lib/systemd/system'
       $init_template    = 'bitbucket.initscript.redhat.erb'
