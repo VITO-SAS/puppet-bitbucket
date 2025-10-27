@@ -26,7 +26,7 @@ class bitbucket::service  (
     assert_type(String, $service_ensure)
     assert_type(Boolean, $service_enable)
 
-    if ($facts['os']['family'] == 'RedHat' and $facts['os']['release']['full'] == '7') or ($::osfamily == 'Debian' and $facts['os']['release']['full'] == '16.04') {
+    if ($facts['os']['family'] == 'RedHat' and $facts['os']['release']['full'] == '7') or ($facts['os']['family'] == 'Debian' and $facts['os']['release']['full'] == '16.04') {
       exec { 'bitbucket_refresh_systemd':
         command     => 'systemctl daemon-reload',
         refreshonly => true,
