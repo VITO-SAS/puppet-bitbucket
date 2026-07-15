@@ -98,20 +98,25 @@ class bitbucket::config(
     ],
   }
 
-  if versioncmp($version, '7.21') >= 0 {
-    $search_config = "${bitbucket::webappdir}/opensearch/config/opensearch.yml"
-    $search_config_template = 'bitbucket/opensearch.yml.erb'
-  } else {
-    $search_config = "${bitbucket::webappdir}/elasticsearch/config-template/elasticsearch.yml"
-    $search_config_template = 'bitbucket/elasticsearch.yml.erb'
-  }
-  file { $search_config:
-    content => template($search_config_template),
-    mode    => '0640',
-    require => [
-      Class['bitbucket::install'],
-      File[$bitbucket::webappdir],
-    ],
+
+  # Bitbucket 10.0 does not bundle Elasticsearch or OpenSearch, so we don't manage the configuration file for those versions.
+  if versioncmp($version, '10.0') < 0 {
+    # Bitbucket 7.21 and later use OpenSearch instead of Elasticsearch. The configuration file location and template are different for each.
+    if versioncmp($version, '7.21') >= 0 {
+      $search_config = "${bitbucket::webappdir}/opensearch/config/opensearch.yml"
+      $search_config_template = 'bitbucket/opensearch.yml.erb'
+    } else {
+      $search_config = "${bitbucket::webappdir}/elasticsearch/config-template/elasticsearch.yml"
+      $search_config_template = 'bitbucket/elasticsearch.yml.erb'
+    }
+    file { $search_config:
+      content => template($search_config_template),
+      mode    => '0640',
+      require => [
+        Class['bitbucket::install'],
+        File[$bitbucket::webappdir],
+      ],
+    }
   }
 
   file { "${bitbucket::webappdir}/app/WEB-INF/classes/logback.xml":
