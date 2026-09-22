@@ -90,7 +90,7 @@ class bitbucket::config(
 
   file { "${bitbucket::homedir}/${moved}bitbucket.properties":
     content => template('bitbucket/bitbucket.properties.erb'),
-    mode    => '0640',
+    mode    => '0600',
     require => [
       Class['bitbucket::install'],
       File[$bitbucket::webappdir],

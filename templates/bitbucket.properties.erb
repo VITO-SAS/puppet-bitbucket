@@ -1,4 +1,3 @@
-<% if scope.function_versioncmp([scope['bitbucket::version'], '3.8.0']) >= 0 -%>
 setup.displayName=<%= scope['bitbucket::display_name'] %>
 setup.baseUrl=<%= scope['bitbucket::base_url'] %>
 setup.license=<%= scope['bitbucket::license'] %>
@@ -14,11 +13,10 @@ setup.sysadmin.emailAddress=<%= scope['bitbucket::sysadmin_email'] %>
 <% if scope.lookupvar('bitbucket::dburl') %>jdbc.url=<%= scope.lookupvar('bitbucket::dburl') %><% end %>
 <% if scope.lookupvar('bitbucket::dbuser') %>jdbc.user=<%= scope.lookupvar('bitbucket::dbuser') %><% end %>
 <%- if scope.lookupvar('bitbucket::change_dbpassword') -%>
-    <password><%= scope.lookupvar('bitbucket::dbpassword') %></password>
-    <%- else -%>
-    <password>{ATL_SECURED}</password>
-    <%- end -%>
-<% if scope.lookupvar('bitbucket::dbpassword') %>jdbc.password=<%= scope.lookupvar('bitbucket::dbpassword') %><% end %>
+jdbc.password=<%= scope.lookupvar('bitbucket::dbpassword') %>
+<%- else -%>
+jdbc.password={ATL_SECURED}
+<%- end -%>
 <% if scope.function_versioncmp([scope['bitbucket::version'], '5.0.0']) >= 0 -%>
 <% if scope.lookupvar('bitbucket::tomcat_port') %>server.port=<%= scope.lookupvar('bitbucket::tomcat_port') %><% end %>
 <% if scope.lookupvar('bitbucket::context_path') %>server.context-path=<%= scope.lookupvar('bitbucket::context_path') %><% end %>
