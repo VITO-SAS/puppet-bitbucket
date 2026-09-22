@@ -1,3 +1,4 @@
+<% if scope.function_versioncmp([scope['bitbucket::version'], '3.8.0']) >= 0 -%>
 setup.displayName=<%= scope['bitbucket::display_name'] %>
 setup.baseUrl=<%= scope['bitbucket::base_url'] %>
 setup.license=<%= scope['bitbucket::license'] %>
